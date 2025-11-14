@@ -3,6 +3,10 @@
 
 void saveToCSV(const std::string& filename, const std::vector<State>& data) {
   std::ofstream file(filename);
+  if (!file) {
+    std::cerr << "Error: cannot open " << filename << "\n";
+    return;
+  }
   file << "x,y,vx,vy\n";
   for (auto& s: data)
     file << s.position.x << "," << s.position.y << "," << s.velocity.x << "," << s.velocity.y << "\n";
