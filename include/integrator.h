@@ -1,6 +1,7 @@
 #ifndef INTEGRATOR_H
 #define INTEGRATOR_H
 
+#pragma once
 #include "physics.h"
 
 State eulerStep(const State& s, double m, double rho, double Cd, double A, double dt);

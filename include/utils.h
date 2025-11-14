@@ -4,6 +4,8 @@
 #include "physics.h"
 #include <vector>
 #include <string>
+#include <iostream>
+#include <fstream>
 
 void saveToCSV(const std::string& filename, const std::vector<State>& data);
 

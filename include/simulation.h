@@ -3,6 +3,6 @@
 
 # include <string>
 
-void runSimulation(const std::string& systemName);
+void runSimulation(const std::string& systemName, const std::string& integrator);
 
 #endif
