@@ -1,16 +1,16 @@
 #include "simulation.h"
-#include "systems/projectile.h"
-#include "systems/pendulum.h"
-#include "systems/oscillator.h"
+#include "projectile.h"
+#include "pendulum.h"
+#include "oscillator.h"
 #include <iostream>
 
-void runSimulation(const std::string& systemName) {
+void runSimulation(const std::string& systemName, const std::string& integrator) {
   if (systemName == "projectile") {
-    simulateProjectile();
+    simulateProjectile(integrator);
   } else if (systemName == "pendulum") {
-    simulatePendulum();
+    simulatePendulum(integrator);
   } else if (systemName == "oscillator") {
-    simulateOscillator();
+    simulateOscillator(integrator);
   } else {
     std::cerr << "Invalid system name. Options: projectile | pendulum | oscillator\n";
   }

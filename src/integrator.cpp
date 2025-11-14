@@ -1,16 +1,25 @@
 #include "integrator.h"
 
-State eulerStep(const State& s, double m, double rho, double Cd, double A, double dt) {
-  vector2D Fg = gravityForce(m);
-  vector2D Fd = dragForce(s.velocity, rho, cD, A);
-  vector2D acc = {(Fg.x + Fd.x)/m, (Fg.y + Fd.y)/m};
+State eulerStep(const State& s, const Params& p, double dt) {
+  // gravity
+  vector2D g(0, -9.81);
 
-  State newS;
-  newS.velocity = s.velocity + acc * dt;
-  newS.position = s.position + s.velocity * dt;
-  return newS;
+  // drag force
+  vector2D Fd = dragForce(s.velocity, p.rho, p.Cd, p.A);
+
+  // total acceleration: a = (Fg + Fd) / m
+  vector2D a = g + (Fd / p.m);
+
+  // Euler update
+  State next;
+  next.position = s.position + s.velocity * dt;
+  next.velocity = s.velocity + a * dt;
+
+  return next;
 }
 
+// TODO: implement properly
 State rk4Step(const State& s, const Params& p, double dt) {
-  // implement k1..k4 using derivative function that returns acceleration given state
+  // Implement later
+  return s;
 }
