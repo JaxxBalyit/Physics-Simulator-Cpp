@@ -10,3 +10,7 @@ State eulerStep(const State& s, double m, double rho, double Cd, double A, doubl
   newS.position = s.position + s.velocity * dt;
   return newS;
 }
+
+State rk4Step(const State& s, const Params& p, double dt) {
+  // implement k1..k4 using derivative function that returns acceleration given state
+}
