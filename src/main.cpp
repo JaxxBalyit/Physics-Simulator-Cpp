@@ -2,9 +2,8 @@
 #include <iostream>
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        std::cerr << "Usage: ./PhysSim <system>\n";
-        std::cerr << "Available: projectile | pendulum | oscillator\n";
+    if (argc < 2 || strcmp(argv[1], "--help")==0) {
+        std::cerr << "Usage: ./PhysSim <projectile|pendulum|oscillator> [--integrator=euler|rk4]\n";
         return 1;
     }
     
