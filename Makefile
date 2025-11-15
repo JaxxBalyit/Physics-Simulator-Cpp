@@ -1,29 +1,40 @@
 # Compiler
 CXX = g++
 CXXFLAGS = -std=gnu++17 -O2 -Wall -Wextra -Iinclude
-# Source files
+# Source files (all cpp files)
 SRC = $(wildcard src/*.cpp src/systems/*.cpp)
 OBJ = $(SRC:.cpp=.o)
 
-# Output binary
+# Output binary name
 TARGET = PhysSim
 
-# Default rule
+# -------------------------------------------------
+.PHONY: all clean run-projectile run-pendulum run-oscillator
+
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CXX) $(CXXFLAGS) -o $@ $(OBJ)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+# Helper: make sure the output folder exists
+data:
+	@mkdir -p data
 
 clean:
-	rm -f $(OBJ) $(TARGET) data/*.csv
+	rm -rf $(OBJ) $(TARGET) data/*.csv data/__pycache__
 
-run-projectile: $(TARGET)
-	./$(TARGET) projectile
+# Python utilities
+PYTHON = python
+MODULE_NAME = data_visualization
 
-run-pendulum: $(TARGET)
-	./$(TARGET) pendulum
+run-projectile: data $(TARGET)
+	./$(TARGET) projectile $(if $(INT),--integrator=$(INT),)
+	$(PYTHON) -c "import sys; sys.path.insert(0, 'data'); from $(MODULE_NAME) import plot_projectile; plot_projectile()"
 
-run-oscillator: $(TARGET)
-	./$(TARGET) oscillator
+run-pendulum: data $(TARGET)
+	./$(TARGET) pendulum $(if $(INT),--integrator=$(INT),)
+	$(PYTHON) -c "import sys; sys.path.insert(0, 'data'); from $(MODULE_NAME) import plot_pendulum; plot_pendulum()"
 
-.PHONY: all clean run-projectile run-pendulum run-oscillator
+run-oscillator: data $(TARGET)
+	./$(TARGET) oscillator $(if $(INT),--integrator=$(INT),)
+	$(PYTHON) -c "import sys; sys.path.insert(0, 'data'); from $(MODULE_NAME) import plot_oscillator; plot_oscillator()"
